@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Line Color 线条/直线颜色</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="canvasId" width="1000" height="900"></canvas>
+    </div>
+    <script>
+        var canvas = document.getElementById("canvasId");
+        var oContext = canvas.getContext("2d");
+//---------------------画canvas边框---------------------------
+        oContext.beginPath();
+        oContext.moveTo(0,0);
+        oContext.lineTo(1000,0);
+        oContext.lineTo(1000,900);
+        oContext.lineTo(0,900);
+        oContext.stroke();
+//------------------------------------------------------------
+
+//------------------画一根线----------------------------------
+        oContext.beginPath(); //初始化
+        oContext.moveTo(30,100); //设置落笔点
+        oContext.lineTo(100,50); //画
+        oContext.lineWidth = 10; //定义 HTML5 Canvas 线条/直线宽度，
+        oContext.lineCap =  "round";
+        //Line Color 线条/直线颜色
+        oContext.strokeStyle = "red"; //设置或返回用于笔触的颜色、渐变
+        oContext.stroke();
+//-------------------------------------------------------------
+
+//--------------------画折线，设置链接点---------------------------
+        oContext.beginPath();
+        oContext.moveTo(99, 150);
+        oContext.lineTo(149, 50);
+        oContext.lineTo(199, 150);
+        oContext.lineJoin = "miter";    //默认。创建尖角
+        oContext.stroke();
+
+        oContext.beginPath();
+        oContext.moveTo(239, 150);
+        oContext.lineTo(289, 50);
+        oContext.lineTo(339, 150);
+        oContext.lineJoin = "round";    //创建圆角
+        oContext.stroke();
+
+        oContext.beginPath();
+        oContext.moveTo(379, 150);
+        oContext.lineTo(429, 50);
+        oContext.lineTo(479, 150);
+        oContext.lineJoin = "bevel";    //创建斜角
+        oContext.stroke();
+//--------------------------------------------------------------
+
+//---------------画矩形------------------------------------------
+        oContext.beginPath();
+        oContext.rect(500, 50, -30, 10);   //创建矩形，定x，y，deltax，deltay
+        oContext.fillStyle = "cornsilk";    //填充颜色
+        oContext.fill();                    //填充当前绘图
+        oContext.lineWidth = 5;
+        oContext.strokeStyle = "tomato";
+        oContext.stroke();
+//--------------------------------------------------------------
+
+//-------------画二次贝塞尔曲线--------------------------------
+/*
+二次贝塞尔曲线可参阅gif
+ */
+        oContext.beginPath();
+        oContext.strokeStyle = 'tomato';
+        oContext.moveTo(30,200);
+        oContext.quadraticCurveTo(50,100,70,200);
+        oContext.stroke();
+//----------------------------------------------------------
+
+//-------------画三次贝塞尔曲线----------------------------
+/*
+三次贝塞尔曲线可参阅png
+ */
+        oContext.beginPath();
+        oContext.moveTo(100,230);                               //起始点（x,y）
+        oContext.bezierCurveTo(40, 90, 288, 90, 188, 200);     //创建三次贝塞尔曲线
+        oContext.lineWidth = 10;
+        oContext.strokeStyle = "tomato";
+        oContext.stroke();
+//------------------------------------------------
+
+//------------拐角圆弧衔接------------------------
+/*
+arcTo（参数点1，参数点2，内切圆半径）
+落笔点，参数点1，2 三点组成夹角，半径确定夹角内切圆同时形成两个切点，
+该函数会从落笔点lineTo切点1，弧线到切点2，切点2lineTo 参数点2
+所以一般半径别太大
+ */
+        oContext.beginPath();
+        oContext.moveTo(300,200);
+        oContext.lineTo(350,200);
+        oContext.arcTo(400,200,400,250,50);  //延长线直角点（虚拟）
+        oContext.stroke();
+    //=====对比例子=======================
+        oContext.beginPath();
+        oContext.strokeStyle = "yellow";
+        oContext.lineWidth =2;
+        oContext.moveTo(300,200);
+        oContext.lineTo(350,200);
+        oContext.arcTo(400,200,400,250,100);  //延长线直角点（虚拟），
+        oContext.stroke();
+
+        oContext.beginPath();
+        oContext.strokeStyle = "blue";
+        oContext.lineWidth =10;
+        oContext.moveTo(400,250);
+        oContext.lineTo(401,251);
+        oContext.stroke()
+    //=======================================   
+//-----------------------------------------------
+
+//---------------封闭曲线--------------------------
+        oContext.beginPath();
+        oContext.strokeStyle = "blue";
+        oContext.lineWidth = 3;
+        oContext.moveTo(450,220);
+        oContext.lineTo(470,270);
+        oContext.lineTo(450,270);
+        oContext.fillStyle = "grey";
+        oContext.fill();
+        oContext.closePath();
+        oContext.stroke();
+//----------------------------------------------
+
+//--------------画圆弧----------------------------
+ /*
+ arc(圆心座标，半径，起始角度，结束角度，逆时针？)
+  */
+    oContext.beginPath();
+    oContext.arc(500,270,10,0,Math.PI,false);
+    oContext.stroke();
+//----------------------------------------------
+
+    </script>
+
+</body>
+</html>
