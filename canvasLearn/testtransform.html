@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Transform 自定义改变</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="transform" width="500" height="500" style="border-style: solid;"></canvas>
+    </div>
+    <script>
+        var oTransform = document.getElementById("transform");
+        var oContext = oTransform.getContext("2d");
+        var x = 0;
+        var y = 0;
+
+        var a = 1;   // a 水平缩放绘图（缩放x尺寸大小,同时也x坐标位置）
+        var b = 0;   // b 水平倾斜绘图（x角度倾斜）
+        var c = 0;   // c 垂直倾斜绘图（y角度倾斜）
+        var d = 1;   // d 垂直缩放绘图（缩放y尺寸大小,同时也y坐标位置）
+        var e = 0;   // e 水平移动绘图（改变x位置）
+        var f = 0;   // f 垂直移动绘图（改变y位置）
+        
+        //对绘图进行自定义缩放、旋转、移动和倾斜
+        oContext.transform(1, Math.PI/4,-Math.PI/4, 1, 0, 0);
+        oContext.fillStyle = "tomato";
+        oContext.fillRect(0, 0, 400, 50);
+    </script>
+</body>
+</html>

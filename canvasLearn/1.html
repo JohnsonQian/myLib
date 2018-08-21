@@ -145,6 +145,80 @@ arcTo（参数点1，参数点2，内切圆半径）
     oContext.stroke();
 //----------------------------------------------
 
+//---------------fillstyle：线性渐变---------------
+//createLinearGradient(向量起始点座标，向量结束点座标)
+	oContext.beginPath();
+	oContext.rect(550,270,40,30);
+	var lgrd = oContext.createLinearGradient(550,270,590,280);
+	lgrd.addColorStop(0,'white');
+	lgrd.addColorStop(0.5,'blue');
+	lgrd.addColorStop(1,'yellow');
+	oContext.fillStyle = lgrd;
+	oContext.fill();
+	oContext.stroke();
+//------------------------------------------------
+
+//----------------fillstyle：圆形辐射---------------
+//createRadialGradient(圆1座标，圆1半径，圆2座标，圆2半径)
+//圆1全部实心填充初始色，圆2补集圆1为过渡区域，圆2一定要包含圆1，圆2外为最后色域
+ 	oContext.beginPath();
+ 	oContext.rect(10,300,100,70);
+ 	oContext.strokeStyle = "tomato";
+ 	var cgrd = oContext.createRadialGradient(60,325,2,60,355,60);
+ 	cgrd.addColorStop(0,'black');
+ 	cgrd.addColorStop(0.5,'red');
+ 	cgrd.addColorStop(1,'yellow');
+ 	oContext.fillStyle = cgrd;
+ 	oContext.fill();
+ 	oContext.stroke();
+//-----------------------------------------------------
+
+//--------------drawImage画图---------------------------
+//1.drawImage（图片对象，放置座标） 原样输出到canvas中，超出部分截断
+//2.drawImage（图片对象，放置座标,输出宽度，输出高度） 缩放后显示，会比例拉伸或者压缩
+//3 drawImage（图片对象，截取开始座标，截取宽度，截取高度，放置座标，输出宽度，输出高度） 会先从原图中截取区域并且输出到canvas中，可能会造成图片宽度或高度比例不对造成图片拉伸或者压缩
+//以上三个方法对参数个数要求是严格的，分别是三个五个九个，多不行少也不行。方法二如果给四个参数，省略高度并不会导致图片按原来比例输出！
+	
+	var img = new Image();
+	img.onload=function(){
+		// oContext.drawImage(img,100,300);//原像素，
+		// oContext.drawImage(img,100,300,150,90); //伸缩输出
+		oContext.drawImage(img,100,100,200,200,100,300,200,200);
+	}
+	img.src = "test.jpg";
+//----------------------------------------------------------
+
+
+//-----------------.translate(座标) 移动画布图层-------------
+//注意这个方法会影响到context中所有drawimage画上的图片注意观察上面哪个图和这个rect，translate会同时影响两者
+	oContext.beginPath(); 
+	oContext.translate(20,20);
+	oContext.rect(350,300,50,80);
+	oContext.stroke();
+//--------------------------------------------------------------
+
+//---------rotate(角度)------------------------------
+//注意通过save保存原有context状态，restore恢复原有状态，save和restore包括的东西代表局部状态，如果去掉的话会影响外部（之前或之后的drawimage，stroke等的状态）
+	oContext.save();
+	oContext.beginPath();
+	oContext.rotate(Math.PI/8);
+	oContext.rect(10,10,40,60);
+	oContext.strokeStyle = 'black';
+	oContext.stroke();
+	oContext.restore();
+//--------------------------------------------------
+
+
+// -------------------.save()  .restore() ----------------
+//可见上面这个例子，如果不加这个会影响之前drawimage画出来的图片
+// beginPath更正对stroke，初始化笔触，图层还是原来的，saverestore更像是新建了一个图层，这个图层上面的座标轴状态都是独立新的 
+
+//~~~~~~~~~~~~至此小结~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//如果要改变座标轴状态的话，包括scale rotate translate transform等
+//会影响之前的drawimage画的图片，图片是依附在座标轴上的，笔触画完就结束了
+//但不会影响之前stroke（）画的笔触
+//如果想改变座标状态不改变之前的drawImage的话需要用.save() .store()方法新建一个context空间，这里面的stroke和drawimage会受影响，但是外面的不会受影响
+
     </script>
 
 </body>
